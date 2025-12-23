@@ -418,19 +418,19 @@ our sub gui-window-box (Rectangle $bounds, Str $title) returns int32 is export i
 our sub gui-group-box (Rectangle $bounds, Str $text) returns int32 is export is native(LIBRAYGUI) is symbol('GuiGroupBox_pointerized'){ * }
 our sub gui-line (Rectangle $bounds, Str $text) returns int32 is export is native(LIBRAYGUI) is symbol('GuiLine_pointerized'){ * }
 our sub gui-panel (Rectangle $bounds, Str $text) returns int32 is export is native(LIBRAYGUI) is symbol('GuiPanel_pointerized'){ * }
-our sub gui-tab-bar (Rectangle $bounds, Str $text, int32 $count, int32 $active is rw, ) returns int32 is export is native(LIBRAYGUI) is symbol('GuiTabBar_pointerized'){ * }
+our sub gui-tab-bar (Rectangle $bounds, Str $text, int32 $count, CArray[int32] $active, ) returns int32 is export is native(LIBRAYGUI) is symbol('GuiTabBar_pointerized'){ * }
 our sub gui-scroll-panel (Rectangle $bounds, Str $text, Rectangle $content, Vector2 $scroll is rw, Rectangle $view is rw) returns int32 is export is native(LIBRAYGUI) is symbol('GuiScrollPanel_pointerized'){ * }
 our sub gui-label (Rectangle $bounds, Str $text) returns int32 is export is native(LIBRAYGUI) is symbol('GuiLabel_pointerized'){ * }
 our sub gui-button (Rectangle $bounds, Str $text) returns int32 is export is native(LIBRAYGUI) is symbol('GuiButton_pointerized'){ * }
 our sub gui-label-button (Rectangle $bounds, Str $text) returns int32 is export is native(LIBRAYGUI) is symbol('GuiLabelButton_pointerized'){ * }
 our sub gui-toggle (Rectangle $bounds, Str $text, bool $active is rw) returns int32 is export is native(LIBRAYGUI) is symbol('GuiToggle_pointerized'){ * }
-our sub gui-toggle-group (Rectangle $bounds, Str $text, int32 $active is rw, ) returns int32 is export is native(LIBRAYGUI) is symbol('GuiToggleGroup_pointerized'){ * }
-our sub gui-toggle-slider (Rectangle $bounds, Str $text, int32 $active is rw, ) returns int32 is export is native(LIBRAYGUI) is symbol('GuiToggleSlider_pointerized'){ * }
+our sub gui-toggle-group (Rectangle $bounds, Str $text, CArray[int32] $active, ) returns int32 is export is native(LIBRAYGUI) is symbol('GuiToggleGroup_pointerized'){ * }
+our sub gui-toggle-slider (Rectangle $bounds, Str $text, CArray[int32] $active, ) returns int32 is export is native(LIBRAYGUI) is symbol('GuiToggleSlider_pointerized'){ * }
 our sub gui-check-box (Rectangle $bounds, Str $text, bool $checked is rw) returns int32 is export is native(LIBRAYGUI) is symbol('GuiCheckBox_pointerized'){ * }
-our sub gui-combo-box (Rectangle $bounds, Str $text, int32 $active is rw, ) returns int32 is export is native(LIBRAYGUI) is symbol('GuiComboBox_pointerized'){ * }
-our sub gui-dropdown-box (Rectangle $bounds, Str $text, int32 $active is rw, bool $editMode) returns int32 is export is native(LIBRAYGUI) is symbol('GuiDropdownBox_pointerized'){ * }
-our sub gui-spinner (Rectangle $bounds, Str $text, int32 $value is rw, int32 $minValue, int32 $maxValue, bool $editMode) returns int32 is export is native(LIBRAYGUI) is symbol('GuiSpinner_pointerized'){ * }
-our sub gui-value-box (Rectangle $bounds, Str $text, int32 $value is rw, int32 $minValue, int32 $maxValue, bool $editMode) returns int32 is export is native(LIBRAYGUI) is symbol('GuiValueBox_pointerized'){ * }
+our sub gui-combo-box (Rectangle $bounds, Str $text, CArray[int32] $active, ) returns int32 is export is native(LIBRAYGUI) is symbol('GuiComboBox_pointerized'){ * }
+our sub gui-dropdown-box (Rectangle $bounds, Str $text, CArray[int32] $active, bool $editMode) returns int32 is export is native(LIBRAYGUI) is symbol('GuiDropdownBox_pointerized'){ * }
+our sub gui-spinner (Rectangle $bounds, Str $text, CArray[int32] $value, int32 $minValue, int32 $maxValue, bool $editMode) returns int32 is export is native(LIBRAYGUI) is symbol('GuiSpinner_pointerized'){ * }
+our sub gui-value-box (Rectangle $bounds, Str $text, CArray[int32] $value, int32 $minValue, int32 $maxValue, bool $editMode) returns int32 is export is native(LIBRAYGUI) is symbol('GuiValueBox_pointerized'){ * }
 our sub gui-value-box-float (Rectangle $bounds, Str $text, CArray[uint8] $textValue, num32 $value is rw, bool $editMode) returns int32 is export is native(LIBRAYGUI) is symbol('GuiValueBoxFloat_pointerized'){ * }
 our sub gui-text-box (Rectangle $bounds, CArray[uint8] $text, int32 $textSize, bool $editMode) returns int32 is export is native(LIBRAYGUI) is symbol('GuiTextBox_pointerized'){ * }
 our sub gui-slider (Rectangle $bounds, Str $textLeft, Str $textRight, num32 $value is rw, num32 $minValue, num32 $maxValue) returns int32 is export is native(LIBRAYGUI) is symbol('GuiSlider_pointerized'){ * }
@@ -439,8 +439,8 @@ our sub gui-progress-bar (Rectangle $bounds, Str $textLeft, Str $textRight, num3
 our sub gui-status-bar (Rectangle $bounds, Str $text) returns int32 is export is native(LIBRAYGUI) is symbol('GuiStatusBar_pointerized'){ * }
 our sub gui-dummy-rec (Rectangle $bounds, Str $text) returns int32 is export is native(LIBRAYGUI) is symbol('GuiDummyRec_pointerized'){ * }
 our sub gui-grid (Rectangle $bounds, Str $text, num32 $spacing, int32 $subdivs, Vector2 $mouseCell is rw) returns int32 is export is native(LIBRAYGUI) is symbol('GuiGrid_pointerized'){ * }
-our sub gui-list-view (Rectangle $bounds, Str $text, int32 $scrollIndex is rw, int32 $active is rw, ) returns int32 is export is native(LIBRAYGUI) is symbol('GuiListView_pointerized'){ * }
-our sub gui-list-view-ex (Rectangle $bounds, Str $text, int32 $count, int32 $scrollIndex is rw, int32 $active is rw, int32 $focus is rw, ) returns int32 is export is native(LIBRAYGUI) is symbol('GuiListViewEx_pointerized'){ * }
+our sub gui-list-view (Rectangle $bounds, Str $text, CArray[int32] $scrollIndex, CArray[int32] $active, ) returns int32 is export is native(LIBRAYGUI) is symbol('GuiListView_pointerized'){ * }
+our sub gui-list-view-ex (Rectangle $bounds, Str $text, int32 $count, CArray[int32] $scrollIndex, CArray[int32] $active, CArray[int32] $focus, ) returns int32 is export is native(LIBRAYGUI) is symbol('GuiListViewEx_pointerized'){ * }
 our sub gui-message-box (Rectangle $bounds, Str $title, Str $message, Str $buttons) returns int32 is export is native(LIBRAYGUI) is symbol('GuiMessageBox_pointerized'){ * }
 our sub gui-text-input-box (Rectangle $bounds, Str $title, Str $message, Str $buttons, CArray[uint8] $text, int32 $textMaxSize, bool $secretViewActive is rw) returns int32 is export is native(LIBRAYGUI) is symbol('GuiTextInputBox_pointerized'){ * }
 our sub gui-color-picker (Rectangle $bounds, Str $text, Color $color is rw) returns int32 is export is native(LIBRAYGUI) is symbol('GuiColorPicker_pointerized'){ * }
