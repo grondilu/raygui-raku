@@ -47,7 +47,7 @@ enum GuiControl is export (
     DROPDOWNBOX => 8,
     TEXTBOX => 9,
     VALUEBOX => 10,
-    SPINNER => 11,
+    CONTROL11 => 11,
     LISTVIEW => 12,
     COLORPICKER => 13,
     SCROLLBAR => 14,
@@ -107,19 +107,23 @@ enum GuiComboBoxProperty is export (
 enum GuiDropdownBoxProperty is export (
     ARROW_PADDING => 16,
     DROPDOWN_ITEMS_SPACING => 17,
+    DROPDOWN_ARROW_HIDDEN => 18,
+    DROPDOWN_ROLL_UP => 19,
 );
 enum GuiTextBoxProperty is export (
     TEXT_READONLY => 16,
 );
-enum GuiSpinnerProperty is export (
-    SPIN_BUTTON_WIDTH => 16,
-    SPIN_BUTTON_SPACING => 17,
+enum GuiValueBoxProperty is export (
+    SPINNER_BUTTON_WIDTH => 16,
+    SPINNER_BUTTON_SPACING => 17,
 );
 enum GuiListViewProperty is export (
     LIST_ITEMS_HEIGHT => 16,
     LIST_ITEMS_SPACING => 17,
     SCROLLBAR_WIDTH => 18,
     SCROLLBAR_SIDE => 19,
+    LIST_ITEMS_BORDER_NORMAL => 20,
+    LIST_ITEMS_BORDER_WIDTH => 21,
 );
 enum GuiColorPickerProperty is export (
     COLOR_SELECTOR_SIZE => 16,
@@ -147,6 +151,7 @@ our sub gui-icon-text (int32 $iconId, Str $text) returns Str is export is native
 our sub gui-set-icon-scale (int32 $scale) is export is native(LIBRAYGUI) is symbol('GuiSetIconScale'){ * }
 our sub term:<gui-get-icons> () returns int32 is export is native(LIBRAYGUI) is symbol('GuiGetIcons'){ * }
 our sub gui-load-icons (Str $fileName, bool $loadIconsName) returns Str is export is native(LIBRAYGUI) is symbol('GuiLoadIcons'){ * }
+our sub gui-get-text-width (Str $text) returns int32 is export is native(LIBRAYGUI) is symbol('GuiGetTextWidth'){ * }
 enum GuiIconName is export (
     ICON_NONE => 0,
     ICON_FOLDER_FILE_OPEN => 1,
@@ -368,36 +373,36 @@ enum GuiIconName is export (
     ICON_FOLDER => 217,
     ICON_FILE => 218,
     ICON_SAND_TIMER => 219,
-    ICON_220 => 220,
-    ICON_221 => 221,
-    ICON_222 => 222,
-    ICON_223 => 223,
-    ICON_224 => 224,
-    ICON_225 => 225,
-    ICON_226 => 226,
-    ICON_227 => 227,
-    ICON_228 => 228,
-    ICON_229 => 229,
-    ICON_230 => 230,
-    ICON_231 => 231,
-    ICON_232 => 232,
-    ICON_233 => 233,
-    ICON_234 => 234,
-    ICON_235 => 235,
-    ICON_236 => 236,
-    ICON_237 => 237,
-    ICON_238 => 238,
-    ICON_239 => 239,
-    ICON_240 => 240,
-    ICON_241 => 241,
-    ICON_242 => 242,
-    ICON_243 => 243,
-    ICON_244 => 244,
-    ICON_245 => 245,
-    ICON_246 => 246,
-    ICON_247 => 247,
-    ICON_248 => 248,
-    ICON_249 => 249,
+    ICON_WARNING => 220,
+    ICON_HELP_BOX => 221,
+    ICON_INFO_BOX => 222,
+    ICON_PRIORITY => 223,
+    ICON_LAYERS_ISO => 224,
+    ICON_LAYERS2 => 225,
+    ICON_MLAYERS => 226,
+    ICON_MAPS => 227,
+    ICON_HOT => 228,
+    ICON_LABEL => 229,
+    ICON_NAME_ID => 230,
+    ICON_SLICING => 231,
+    ICON_MANUAL_CONTROL => 232,
+    ICON_COLLISION => 233,
+    ICON_CIRCLE_ADD => 234,
+    ICON_CIRCLE_ADD_FILL => 235,
+    ICON_CIRCLE_WARNING => 236,
+    ICON_CIRCLE_WARNING_FILL => 237,
+    ICON_BOX_MORE => 238,
+    ICON_BOX_MORE_FILL => 239,
+    ICON_BOX_MINUS => 240,
+    ICON_BOX_MINUS_FILL => 241,
+    ICON_UNION => 242,
+    ICON_INTERSECTION => 243,
+    ICON_DIFFERENCE => 244,
+    ICON_SPHERE => 245,
+    ICON_CYLINDER => 246,
+    ICON_CONE => 247,
+    ICON_ELLIPSOID => 248,
+    ICON_CAPSULE => 249,
     ICON_250 => 250,
     ICON_251 => 251,
     ICON_252 => 252,
@@ -413,19 +418,20 @@ our sub gui-window-box (Rectangle $bounds, Str $title) returns int32 is export i
 our sub gui-group-box (Rectangle $bounds, Str $text) returns int32 is export is native(LIBRAYGUI) is symbol('GuiGroupBox_pointerized'){ * }
 our sub gui-line (Rectangle $bounds, Str $text) returns int32 is export is native(LIBRAYGUI) is symbol('GuiLine_pointerized'){ * }
 our sub gui-panel (Rectangle $bounds, Str $text) returns int32 is export is native(LIBRAYGUI) is symbol('GuiPanel_pointerized'){ * }
-our sub gui-tab-bar (Rectangle $bounds, Str $text, int32 $count, int32 $active is rw, ) returns int32 is export is native(LIBRAYGUI) is symbol('GuiTabBar_pointerized'){ * }
+our sub gui-tab-bar (Rectangle $bounds, Str $text, int32 $count, CArray[int32] $active, ) returns int32 is export is native(LIBRAYGUI) is symbol('GuiTabBar_pointerized'){ * }
 our sub gui-scroll-panel (Rectangle $bounds, Str $text, Rectangle $content, Vector2 $scroll is rw, Rectangle $view is rw) returns int32 is export is native(LIBRAYGUI) is symbol('GuiScrollPanel_pointerized'){ * }
 our sub gui-label (Rectangle $bounds, Str $text) returns int32 is export is native(LIBRAYGUI) is symbol('GuiLabel_pointerized'){ * }
 our sub gui-button (Rectangle $bounds, Str $text) returns int32 is export is native(LIBRAYGUI) is symbol('GuiButton_pointerized'){ * }
 our sub gui-label-button (Rectangle $bounds, Str $text) returns int32 is export is native(LIBRAYGUI) is symbol('GuiLabelButton_pointerized'){ * }
 our sub gui-toggle (Rectangle $bounds, Str $text, bool $active is rw) returns int32 is export is native(LIBRAYGUI) is symbol('GuiToggle_pointerized'){ * }
-our sub gui-toggle-group (Rectangle $bounds, Str $text, int32 $active is rw, ) returns int32 is export is native(LIBRAYGUI) is symbol('GuiToggleGroup_pointerized'){ * }
-our sub gui-toggle-slider (Rectangle $bounds, Str $text, int32 $active is rw, ) returns int32 is export is native(LIBRAYGUI) is symbol('GuiToggleSlider_pointerized'){ * }
+our sub gui-toggle-group (Rectangle $bounds, Str $text, CArray[int32] $active, ) returns int32 is export is native(LIBRAYGUI) is symbol('GuiToggleGroup_pointerized'){ * }
+our sub gui-toggle-slider (Rectangle $bounds, Str $text, CArray[int32] $active, ) returns int32 is export is native(LIBRAYGUI) is symbol('GuiToggleSlider_pointerized'){ * }
 our sub gui-check-box (Rectangle $bounds, Str $text, bool $checked is rw) returns int32 is export is native(LIBRAYGUI) is symbol('GuiCheckBox_pointerized'){ * }
-our sub gui-combo-box (Rectangle $bounds, Str $text, int32 $active is rw, ) returns int32 is export is native(LIBRAYGUI) is symbol('GuiComboBox_pointerized'){ * }
-our sub gui-dropdown-box (Rectangle $bounds, Str $text, int32 $active is rw, bool $editMode) returns int32 is export is native(LIBRAYGUI) is symbol('GuiDropdownBox_pointerized'){ * }
-our sub gui-spinner (Rectangle $bounds, Str $text, int32 $value is rw, int32 $minValue, int32 $maxValue, bool $editMode) returns int32 is export is native(LIBRAYGUI) is symbol('GuiSpinner_pointerized'){ * }
-our sub gui-value-box (Rectangle $bounds, Str $text, int32 $value is rw, int32 $minValue, int32 $maxValue, bool $editMode) returns int32 is export is native(LIBRAYGUI) is symbol('GuiValueBox_pointerized'){ * }
+our sub gui-combo-box (Rectangle $bounds, Str $text, CArray[int32] $active, ) returns int32 is export is native(LIBRAYGUI) is symbol('GuiComboBox_pointerized'){ * }
+our sub gui-dropdown-box (Rectangle $bounds, Str $text, CArray[int32] $active, bool $editMode) returns int32 is export is native(LIBRAYGUI) is symbol('GuiDropdownBox_pointerized'){ * }
+our sub gui-spinner (Rectangle $bounds, Str $text, CArray[int32] $value, int32 $minValue, int32 $maxValue, bool $editMode) returns int32 is export is native(LIBRAYGUI) is symbol('GuiSpinner_pointerized'){ * }
+our sub gui-value-box (Rectangle $bounds, Str $text, CArray[int32] $value, int32 $minValue, int32 $maxValue, bool $editMode) returns int32 is export is native(LIBRAYGUI) is symbol('GuiValueBox_pointerized'){ * }
+our sub gui-value-box-float (Rectangle $bounds, Str $text, CArray[uint8] $textValue, num32 $value is rw, bool $editMode) returns int32 is export is native(LIBRAYGUI) is symbol('GuiValueBoxFloat_pointerized'){ * }
 our sub gui-text-box (Rectangle $bounds, CArray[uint8] $text, int32 $textSize, bool $editMode) returns int32 is export is native(LIBRAYGUI) is symbol('GuiTextBox_pointerized'){ * }
 our sub gui-slider (Rectangle $bounds, Str $textLeft, Str $textRight, num32 $value is rw, num32 $minValue, num32 $maxValue) returns int32 is export is native(LIBRAYGUI) is symbol('GuiSlider_pointerized'){ * }
 our sub gui-slider-bar (Rectangle $bounds, Str $textLeft, Str $textRight, num32 $value is rw, num32 $minValue, num32 $maxValue) returns int32 is export is native(LIBRAYGUI) is symbol('GuiSliderBar_pointerized'){ * }
@@ -433,8 +439,8 @@ our sub gui-progress-bar (Rectangle $bounds, Str $textLeft, Str $textRight, num3
 our sub gui-status-bar (Rectangle $bounds, Str $text) returns int32 is export is native(LIBRAYGUI) is symbol('GuiStatusBar_pointerized'){ * }
 our sub gui-dummy-rec (Rectangle $bounds, Str $text) returns int32 is export is native(LIBRAYGUI) is symbol('GuiDummyRec_pointerized'){ * }
 our sub gui-grid (Rectangle $bounds, Str $text, num32 $spacing, int32 $subdivs, Vector2 $mouseCell is rw) returns int32 is export is native(LIBRAYGUI) is symbol('GuiGrid_pointerized'){ * }
-our sub gui-list-view (Rectangle $bounds, Str $text, int32 $scrollIndex is rw, int32 $active is rw, ) returns int32 is export is native(LIBRAYGUI) is symbol('GuiListView_pointerized'){ * }
-our sub gui-list-view-ex (Rectangle $bounds, Str $text, int32 $count, int32 $scrollIndex is rw, int32 $active is rw, int32 $focus is rw, ) returns int32 is export is native(LIBRAYGUI) is symbol('GuiListViewEx_pointerized'){ * }
+our sub gui-list-view (Rectangle $bounds, Str $text, CArray[int32] $scrollIndex, CArray[int32] $active, ) returns int32 is export is native(LIBRAYGUI) is symbol('GuiListView_pointerized'){ * }
+our sub gui-list-view-ex (Rectangle $bounds, Str $text, int32 $count, CArray[int32] $scrollIndex, CArray[int32] $active, CArray[int32] $focus, ) returns int32 is export is native(LIBRAYGUI) is symbol('GuiListViewEx_pointerized'){ * }
 our sub gui-message-box (Rectangle $bounds, Str $title, Str $message, Str $buttons) returns int32 is export is native(LIBRAYGUI) is symbol('GuiMessageBox_pointerized'){ * }
 our sub gui-text-input-box (Rectangle $bounds, Str $title, Str $message, Str $buttons, CArray[uint8] $text, int32 $textMaxSize, bool $secretViewActive is rw) returns int32 is export is native(LIBRAYGUI) is symbol('GuiTextInputBox_pointerized'){ * }
 our sub gui-color-picker (Rectangle $bounds, Str $text, Color $color is rw) returns int32 is export is native(LIBRAYGUI) is symbol('GuiColorPicker_pointerized'){ * }
